@@ -4,16 +4,21 @@
 CXXFLAGS += -std=c++11
 CFLAGS += -std=c11
 
-# Compiler warning level
-warning_flags := \
-	-Wall -Wextra -Werror
-
 # Compiler optimzation
 CXXFLAGS += -O0 -g
 CFLAGS += -O0 -g
 
+# Compiler warning level
+warning_flags := \
+	-Wall -Wextra -Werror
+
 CFLAGS += $(warning_flags)
 CXXFLAGS += $(warning_flags)
+
+# Check if build is for PC development environment
+ifeq ($(PCENV),1)
+	CPPFLAGS += -DPCENV
+endif
 
 # Build with threading support
 CFLAGS   += -pthread

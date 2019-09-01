@@ -137,4 +137,4 @@ private:
    static void CustomImageAnimator(void *obj, lv_anim_value_t value); 
 };
 
-#endif // _NOLPI_GUI_H
+#endif // _NOLPI_GUI_H_

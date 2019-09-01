@@ -2,9 +2,14 @@
 #include <functional>
 
 #include "NolPi/NolPiGui.h"
+#include "NolPi/PcEnv.h"
 
+#if defined PCENV
 #include "LittlevGL/lv_drivers/display/monitor.h"
 #include "LittlevGL/lv_drivers/indev/mouse.h"
+#else
+//TBD: include NolPi stuff here
+#endif
 
 ////////////////////////////////////////////////////////////////////////////
 //               Global definitions
@@ -186,9 +191,13 @@ void NolPiGui::InitGraphics()
    // Initialize LittlevGL
    lv_init();
 
+#if defined PCENV
    // Use the 'monitor' driver.
    // Creates a SDL window on PC's monitor to simulate a display.
    monitor_init();
+#else
+   // Use NolPi stuff here
+#endif
 
    // Initialize the display buffer
    m_pDrawBuffer = new lv_color_t[LV_HOR_RES_MAX * LV_VER_RES_MAX];
@@ -203,22 +212,34 @@ void NolPiGui::InitGraphics()
    dispDrv.hor_res  = LV_HOR_RES_MAX;
    dispDrv.ver_res  = LV_VER_RES_MAX;
    dispDrv.buffer   = &m_DisplayBuffer;
+#if defined PCENV
    dispDrv.flush_cb = monitor_flush;
+#else
+   // Use NolPi stuff here
+#endif
    lv_disp_t *monitorDisp = lv_disp_drv_register(&dispDrv);
    if (monitorDisp == NULL)
    {
       printf("%s : can't register display driver\n", __func__);
    }
 
+#if defined PCENV
    // Use the 'mouse' driver.
    // Reads the PC's mouse.
    mouse_init();
+#else
+   // Use NolPi stuff here
+#endif
 
    // Register the input device driver to LittlevGL
    lv_indev_drv_t indevDrv;
    lv_indev_drv_init(&indevDrv);
    indevDrv.type    = LV_INDEV_TYPE_POINTER;
+#if defined PCENV
    indevDrv.read_cb = mouse_read;
+#else
+   // Use NolPi stuff here
+#endif
    lv_indev_t *mouseIndev = lv_indev_drv_register(&indevDrv);
    if (mouseIndev == NULL)
    {

@@ -12,7 +12,10 @@ include rules.mak
 include options.mak
 
 # Extra link flags used for LittlevGL application
-LITTLEVGL_EXTRA_LDFLAGS := $(shell sdl2-config --libs)
+LITTLEVGL_EXTRA_LDFLAGS :=
+ifeq ($(PCENV),1)
+	LITTLEVGL_EXTRA_LDFLAGS := $(shell sdl2-config --libs)
+endif
 
 # ------ Include project components make files
 

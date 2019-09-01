@@ -82,8 +82,12 @@
 /*-------------------
  *  Monitor of PC
  *-------------------*/
+#if defined PCENV
 #ifndef USE_MONITOR
 #  define USE_MONITOR         1
+#endif
+#else
+#  define USE_MONITOR         0
 #endif
 
 #if USE_MONITOR
@@ -238,8 +242,12 @@
 /*---------------------------------------
  * Mouse or touchpad on PC (using SDL)
  *-------------------------------------*/
+#if defined PCENV
 #ifndef USE_MOUSE
 #  define USE_MOUSE           1
+#endif
+#else
+#  define USE_MOUSE           0
 #endif
 
 #if USE_MOUSE
@@ -249,8 +257,12 @@
 /*-------------------------------------------
  * Mousewheel as encoder on PC (using SDL)
  *------------------------------------------*/
+#if defined PCENV
 #ifndef USE_MOUSEWHEEL
 #  define USE_MOUSEWHEEL      1
+#endif
+#else
+#  define USE_MOUSEWHEEL      0
 #endif
 
 #if USE_MOUSEWHEEL
@@ -297,8 +309,12 @@
 /*-------------------------------
  *   Keyboard of a PC (using SDL)
  *------------------------------*/
+#if defined PCENV
 #ifndef USE_KEYBOARD
 #  define USE_KEYBOARD        1
+#endif
+#else
+#  define USE_KEYBOARD        0
 #endif
 
 #if USE_KEYBOARD
