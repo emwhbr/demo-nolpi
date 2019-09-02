@@ -9,6 +9,7 @@
 #include "LittlevGL/lv_drivers/indev/mouse.h"
 #else
 #include "LittlevGL/lv_drivers/display/fbdev.h"
+#include "LittlevGL/lv_drivers/indev/evdev.h"
 #endif
 
 ////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@
 static constexpr unsigned int TICK_PERIOD_MS = 5;
 static constexpr unsigned int TASK_PERIOD_MS = 10;
 
-static constexpr int PRELOAD_TIME_S = 1;
+static constexpr int PRELOAD_TIME_S = 3;
 
 // Temperature definitions
 static constexpr int DEG_PER_INTERVAL = 5;
@@ -196,7 +197,8 @@ void NolPiGui::InitGraphics()
    // Creates a SDL window on PC's monitor to simulate a display.
    monitor_init();
 #else
-   // Use the NolPi 'framebuffer' driver.
+   // Use the Linux 'framebuffer' driver.
+   // Creates graphics on the NolPi TFT touchscreen.
    fbdev_init();
 #endif
 
@@ -229,7 +231,9 @@ void NolPiGui::InitGraphics()
    // Reads the PC's mouse.
    mouse_init();
 #else
-   // Use NolPi stuff here
+   // Use the Linux evdev interface.
+   // Reads events from the NolPi TFT touchscreen.
+   evdev_init();
 #endif
 
    // Register the input device driver to LittlevGL
@@ -239,7 +243,7 @@ void NolPiGui::InitGraphics()
 #if defined PCENV
    indevDrv.read_cb = mouse_read;
 #else
-   // Use NolPi stuff here
+   indevDrv.read_cb = evdev_read;
 #endif
    lv_indev_t *mouseIndev = lv_indev_drv_register(&indevDrv);
    if (mouseIndev == NULL)
