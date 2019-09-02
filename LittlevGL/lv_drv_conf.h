@@ -83,9 +83,7 @@
  *  Monitor of PC
  *-------------------*/
 #if defined PCENV
-#ifndef USE_MONITOR
 #  define USE_MONITOR         1
-#endif
 #else
 #  define USE_MONITOR         0
 #endif
@@ -186,12 +184,14 @@
 /*-----------------------------------------
  *  Linux frame buffer device (/dev/fbx)
  *-----------------------------------------*/
-#ifndef USE_FBDEV
+#if defined PCENV
 #  define USE_FBDEV           0
+#else
+#  define USE_FBDEV           1
 #endif
 
 #if USE_FBDEV
-#  define FBDEV_PATH          "/dev/fb0"
+#  define FBDEV_PATH          "/dev/fb1"
 #endif
 
 /*********************
@@ -243,9 +243,7 @@
  * Mouse or touchpad on PC (using SDL)
  *-------------------------------------*/
 #if defined PCENV
-#ifndef USE_MOUSE
 #  define USE_MOUSE           1
-#endif
 #else
 #  define USE_MOUSE           0
 #endif
@@ -258,9 +256,7 @@
  * Mousewheel as encoder on PC (using SDL)
  *------------------------------------------*/
 #if defined PCENV
-#ifndef USE_MOUSEWHEEL
 #  define USE_MOUSEWHEEL      1
-#endif
 #else
 #  define USE_MOUSEWHEEL      0
 #endif
@@ -310,9 +306,7 @@
  *   Keyboard of a PC (using SDL)
  *------------------------------*/
 #if defined PCENV
-#ifndef USE_KEYBOARD
 #  define USE_KEYBOARD        1
-#endif
 #else
 #  define USE_KEYBOARD        0
 #endif

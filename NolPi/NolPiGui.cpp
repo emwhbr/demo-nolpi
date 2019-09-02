@@ -8,7 +8,7 @@
 #include "LittlevGL/lv_drivers/display/monitor.h"
 #include "LittlevGL/lv_drivers/indev/mouse.h"
 #else
-//TBD: include NolPi stuff here
+#include "LittlevGL/lv_drivers/display/fbdev.h"
 #endif
 
 ////////////////////////////////////////////////////////////////////////////
@@ -196,7 +196,8 @@ void NolPiGui::InitGraphics()
    // Creates a SDL window on PC's monitor to simulate a display.
    monitor_init();
 #else
-   // Use NolPi stuff here
+   // Use the NolPi 'framebuffer' driver.
+   fbdev_init();
 #endif
 
    // Initialize the display buffer
@@ -215,7 +216,7 @@ void NolPiGui::InitGraphics()
 #if defined PCENV
    dispDrv.flush_cb = monitor_flush;
 #else
-   // Use NolPi stuff here
+   dispDrv.flush_cb = fbdev_flush;
 #endif
    lv_disp_t *monitorDisp = lv_disp_drv_register(&dispDrv);
    if (monitorDisp == NULL)
