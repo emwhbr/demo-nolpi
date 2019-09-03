@@ -187,6 +187,11 @@ bool evdev_read(lv_indev_drv_t * drv, lv_indev_data_t * data)
 #endif
 #endif
 
+#if 0
+    printf("++++ %s: evdev_x=%d, evdev_y=%d\t x=%d, y=%d\n",
+      __func__, evdev_root_x, evdev_root_y, data->point.x, data->point.y);
+#endif
+
     data->state = evdev_button;
 
     if(data->point.x < 0)

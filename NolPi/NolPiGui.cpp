@@ -20,7 +20,7 @@
 static constexpr unsigned int TICK_PERIOD_MS = 5;
 static constexpr unsigned int TASK_PERIOD_MS = 10;
 
-static constexpr int PRELOAD_TIME_S = 3;
+static constexpr int PRELOAD_TIME_S = 1;
 
 // Temperature definitions
 static constexpr int DEG_PER_INTERVAL = 5;
@@ -36,10 +36,17 @@ static constexpr int NR_TEMP_POINTS = 20;
 // Custom widgets for LittlevGL
 LV_IMG_DECLARE(tritech_logo);
 
+#if defined PCENV
 static constexpr lv_coord_t ANIM_X_MIN = 10;
 static constexpr lv_coord_t ANIM_X_MAX = 290;
 
 static constexpr lv_coord_t ANIM_Y_START = 138;
+#else
+static constexpr lv_coord_t ANIM_X_MIN = 30;
+static constexpr lv_coord_t ANIM_X_MAX = 270;
+
+static constexpr lv_coord_t ANIM_Y_START = 170;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////
 //               Public member functions
@@ -1043,8 +1050,9 @@ void NolPiGui::CustomImageAnimator(void *obj, lv_anim_value_t value)
    lv_coord_t x2 = 0;
    lv_coord_t y2 = 0;
 
+#if 0
    printf("%s => called, value=%d\n", __func__, value);
-
+#endif
    if (obj)
    {
       lv_obj_t *o = static_cast<lv_obj_t *>(obj);
@@ -1081,7 +1089,9 @@ void NolPiGui::CustomImageAnimator(void *obj, lv_anim_value_t value)
          // Save old position
          x1 = x2;
          y1 = y2;
+#if 0
          printf("%s => x1 = %d, y1 = %d\n", __func__, x1, y1);
+#endif
       }
    }
 }
