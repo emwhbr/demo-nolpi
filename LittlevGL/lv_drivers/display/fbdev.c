@@ -115,6 +115,10 @@ void fbdev_flush(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * color
     int32_t act_x2 = area->x2 > (int32_t)vinfo.xres - 1 ? (int32_t)vinfo.xres - 1 : area->x2;
     int32_t act_y2 = area->y2 > (int32_t)vinfo.yres - 1 ? (int32_t)vinfo.yres - 1 : area->y2;
 
+#if 0
+    printf("++++ %s : x1=%d, y1=%d, x2=%d, y2=%d\n",
+        __func__, act_x1, act_y1, act_x2, act_y2);
+#endif
 
     lv_coord_t w = lv_area_get_width(area);
     long int location = 0;

@@ -1,17 +1,22 @@
 #include <iostream>
+#include <future>
 
 #include "NolPi/NolPi.h"
+#include "LittlevGL/lvgl/src/lv_version.h"
  
 int main(int argc, char *argv[])
 {
-	(void)argc;
-	(void)argv;
+   (void)argc;
+   (void)argv;
 
-  	std::cout << "Hello, NolPi! - C++\n";
+   std::cout << "NolPi demo, LittlevGL:"
+             << LVGL_VERSION_MAJOR << "."
+             << LVGL_VERSION_MINOR << "."
+             << LVGL_VERSION_PATCH << std::endl;
 
    NolPi app;
-  
-   std::this_thread::sleep_for(std::chrono::seconds(500));
 
-  	return 0;
+   std::promise<void>().get_future().wait();
+
+   return 0;
 }
