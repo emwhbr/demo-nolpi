@@ -21,9 +21,9 @@
 
 // LittlevGL task period times
 static constexpr unsigned int TICK_PERIOD_MS = 5;
-static constexpr unsigned int TASK_PERIOD_MS = 20;
+static constexpr unsigned int TASK_PERIOD_MS = 10;
 
-static constexpr int PRELOAD_TIME_S = 1;
+static constexpr int PRELOAD_TIME_S = 5;
 
 // Temperature definitions
 static constexpr int DEG_PER_INTERVAL = 5;
@@ -39,17 +39,14 @@ static constexpr int NR_TEMP_POINTS = 20;
 // Custom widgets for LittlevGL
 LV_IMG_DECLARE(tritech_logo);
 
-#if defined PCENV
 static constexpr lv_coord_t ANIM_X_MIN = 10;
 static constexpr lv_coord_t ANIM_X_MAX = 290;
 
-static constexpr lv_coord_t ANIM_Y_START = 138;
-#else
-static constexpr lv_coord_t ANIM_X_MIN = 30;
-static constexpr lv_coord_t ANIM_X_MAX = 270;
+static constexpr lv_coord_t ANIM_Y_MIN = 10;
+static constexpr lv_coord_t ANIM_Y_MAX = 280;
 
-static constexpr lv_coord_t ANIM_Y_START = 170;
-#endif
+static constexpr lv_coord_t ANIM_Y_START = 138;
+
 
 ////////////////////////////////////////////////////////////////////////////
 //               Public member functions
@@ -1121,6 +1118,17 @@ void NolPiGui::CustomImageAnimator(void *obj, lv_anim_value_t value)
             {
                y2 = y1 - 2;
             }
+         }
+
+         if (y2 > ANIM_Y_MAX)
+         {
+            //printf("++++++ %s : Limit-max y2 = %d\n", __func__, y2);
+            y2 = ANIM_Y_MAX;
+         }
+         else if (y2 < ANIM_Y_MIN)
+         {
+            //printf("++++++ %s : Limit-min y2 = %d\n", __func__, y2);
+            y2 = ANIM_Y_MAX;
          }
 
          lv_obj_set_pos(instance->GetImageCustomImage(), x2, y2);
