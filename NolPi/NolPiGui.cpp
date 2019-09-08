@@ -1,3 +1,6 @@
+#include <pthread.h>
+#include <sched.h>
+
 #include <chrono>
 #include <functional>
 
@@ -18,7 +21,7 @@
 
 // LittlevGL task period times
 static constexpr unsigned int TICK_PERIOD_MS = 5;
-static constexpr unsigned int TASK_PERIOD_MS = 10;
+static constexpr unsigned int TASK_PERIOD_MS = 20;
 
 static constexpr int PRELOAD_TIME_S = 1;
 
@@ -332,8 +335,39 @@ void NolPiGui::DestroyGUI()
 
 ///////////////////////////////////////////////////////////////
 
+void NolPiGui::SetSchedFifoPriority(int prio)
+{
+   const int policy = SCHED_FIFO;
+
+   if (prio > sched_get_priority_max(policy))
+   {
+      prio = sched_get_priority_max(policy);
+   }
+   else if (prio < sched_get_priority_min(policy))
+   {
+      prio = sched_get_priority_min(policy);
+   }
+
+   struct sched_param param;
+   memset(&param, 0, sizeof(param));
+   param.sched_priority = prio;
+
+   if (pthread_setschedparam(pthread_self(), policy, &param))
+   {
+      printf("%s : [FAIL] set policy SCHED_FIFO, prio = %d",
+             __func__, param.sched_priority);
+   }
+}
+
+///////////////////////////////////////////////////////////////
+
 void NolPiGui::TickHandler()
 {
+   if (!PcEnv::enabled)
+   {
+      SetSchedFifoPriority(90);
+   }
+
    while (m_RunThreads)
    {
       lv_tick_inc(TICK_PERIOD_MS);
@@ -345,6 +379,11 @@ void NolPiGui::TickHandler()
 
 void NolPiGui::TaskHandler()
 {
+   if (!PcEnv::enabled)
+   {
+      SetSchedFifoPriority(89);
+   }
+
    while (m_RunThreads)
    {
       lv_task_handler();

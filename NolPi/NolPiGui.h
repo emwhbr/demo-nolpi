@@ -99,6 +99,7 @@ private:
    void CreateGUI();
    void DestroyGUI();
 
+   void SetSchedFifoPriority(int prio);
    void TickHandler();
    void TaskHandler();
 
