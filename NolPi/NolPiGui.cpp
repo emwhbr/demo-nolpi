@@ -889,6 +889,12 @@ void NolPiGui::RedrawScreen(lv_obj_t *screen)
 {
    if (screen != NULL)
    {
+      if (!PcEnv::enabled)
+      {
+         // hack to get around fbcon cursor blink
+         system("/bin/echo 0 > /sys/class/graphics/fbcon/cursor_blink");
+      }
+
       lv_scr_load(screen);
       lv_obj_invalidate(screen);
    }
